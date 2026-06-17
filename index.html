@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<!--
+  THE ROBLOXIAN NIGHT STALKERS | 82nd Marines Corps
+  "Death Waits In The Dark"
+  v6.0 — "Field Dossier" Remaster
+  coded by 3ptp | 2025
+
+  Concept: a tactical case file / field dossier, not a hacker
+  terminal. Rust + steel on warm charcoal. Oswald for display
+  type, system sans for body, monospace reserved for tags only.
+
+  FILES NEEDED (same folder as this html):
+  skull_logo.webp · noFilter.png · roblox_cursor.png
+  MURDA_KILLA_IS_MY_CLICK.mp3
+  Create_a_retro_computer_console_look_in_After_Effects_with_the_Terminal_Preset-_AudioTrimmer_com_.mp3
+  glitch.mp3 · Radio_Chatter_-_Airstrike_-_Roblox.mp3
+  ROBLOX_Sound_-_button-_AudioTrimmer_com_.mp3
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Night Stalkers 82MC — Death Waits In The Dark</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============================================================
+   PALETTE — warm charcoal, rust, steel. no green. no gold.
+============================================================ */
+:root{
+  --ink:     #14171A;
+  --ink2:    #1A1E21;
+  --panel:   #181C1F;
+  --line:    #272C30;
+  --line2:   #34393E;
+  --rust:    #C2552A;
+  --rustbr:  #E0703F;
+  --rustdim: #5C2A14;
+  --steel:   #5C7486;
+  --steelbr: #93B0C2;
+  --text:    #A39E93;
+  --textbr:  #ECE7DA;
+  --textdim: #4D4A43;
+  --red:     #8A2A22;
+  --redbr:   #C9402E;
+}
+
+/* ============================================================
+   RESET + TYPE SYSTEM
+   display = Oswald · body = system sans · meta = monospace
+============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  background:var(--ink);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;font-size:13px;
+  overflow-x:hidden;
+  cursor:url('roblox_cursor.png') 0 0, crosshair;
+}
+a,button,[onclick]{cursor:url('roblox_cursor.png') 0 0,pointer;}
+a{color:var(--steelbr);text-decoration:none;}
+a:hover{color:var(--rustbr);}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#0E1012;}
+::-webkit-scrollbar-thumb{background:var(--line2);}
+::-webkit-scrollbar-thumb:hover{background:var(--rustdim);}
+
+.disp{font-family:'Oswald',Arial Narrow,Arial,sans-serif;}
+
+/* ============================================================
+   KEYFRAMES
+============================================================ */
+@keyframes blink{50%{opacity:0;}}
+@keyframes breathe{0%,100%{filter:drop-shadow(0 0 6px rgba(194,85,42,.28));}50%{filter:drop-shadow(0 0 18px rgba(194,85,42,.6));}}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes siteIn{from{opacity:0;}to{opacity:1;}}
+@keyframes underline{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+
+/* ============================================================
+   SHARED COMPONENTS
+============================================================ */
+
+/* small monospace meta tag, used sparingly throughout */
+.tag{
+  font-family:'Courier New',Courier,monospace;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(194,85,42,.5);
+}
+
+/* crosshair tick marks — corner survey marks, not full brackets */
+.tick{position:absolute;width:18px;height:18px;}
+.tick::before{content:'';position:absolute;width:18px;height:1px;background:var(--rust);top:8.5px;left:0;opacity:.55;}
+.tick::after{content:'';position:absolute;width:1px;height:18px;background:var(--rust);left:8.5px;top:0;opacity:.55;}
+
+/* clipped-corner button — primary and outline variants */
+.btn{
+  display:inline-block;text-align:center;width:100%;
+  font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:700;
+  font-size:13px;letter-spacing:3px;text-transform:uppercase;
+  text-decoration:none;padding:13px 16px;margin:8px 0;
+  clip-path:polygon(0 0,100% 0,100% 80%,90% 100%,0 100%);
+  transition:background .15s,color .15s,border-color .15s;
+}
+.btn-primary{background:var(--rust);color:#15171A;border:none;}
+.btn-primary:hover{background:var(--rustbr);color:#15171A;}
+.btn-outline{background:transparent;border:2px solid var(--steel);color:var(--steelbr);padding:11px 16px;}
+.btn-outline:hover{border-color:var(--steelbr);background:rgba(92,116,134,.08);color:var(--steelbr);}
+.btn-text{
+  font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:600;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--textdim);border-bottom:1px solid var(--line2);padding-bottom:3px;
+}
+.btn-text:hover{color:var(--rustbr);border-color:var(--rust);}
+
+/* stamp badge — rotated rubber-stamp circle, no curved text needed */
+.stamp{
+  border:2px solid var(--rust);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:rotate(-8deg);position:relative;flex-shrink:0;
+}
+.stamp::before{content:'';position:absolute;inset:6px;border:1px solid var(--rust);border-radius:50%;opacity:.5;}
+.stamp .l1,.stamp .l3{font-family:'Courier New',monospace;font-size:7px;letter-spacing:2px;color:var(--rustbr);text-transform:uppercase;}
+.stamp .l2{font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;color:var(--rustbr);text-transform:uppercase;margin:1px 0;}
+
+/* chevron list — used for objectives and rules, ties panels together */
+.chev{list-style:none;font-size:12.5px;color:var(--text);line-height:2;}
+.chev li::before{content:'\203A';color:var(--rust);font-weight:700;margin-right:9px;}
+
+/* thin rule divider */
+.rule{border:0;border-top:1px solid var(--line);margin:16px 0;}
+
+/* small section label inside panels */
+.label-sm{
+  font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:600;
+  font-size:11px;letter-spacing:2px;color:var(--rustbr);
+  text-transform:uppercase;margin-bottom:10px;
+}
+
+/* key:value rows */
+.kv .row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);font-size:12px;}
+.kv .row:last-child{border-bottom:0;}
+.kv dt{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:1px;color:var(--textdim);text-transform:uppercase;}
+.kv dd{margin:0;text-align:right;color:var(--text);}
+.kv dd.hi{color:var(--rustbr);font-weight:700;}
+.kv dd.ok{color:var(--steelbr);font-weight:700;}
+
+/* roster-style rows */
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:12px;}
+.rrow:last-child{border-bottom:0;}
+.rktag{
+  display:inline-block;font-family:'Courier New',monospace;font-size:8px;font-weight:700;
+  color:var(--rust);border:1px solid var(--rust);padding:1px 5px;margin-right:8px;letter-spacing:1px;
+}
+.rrow .v{color:var(--textdim);font-style:italic;font-size:11px;}
+
+/* dispatch rows */
+.disp{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12px;}
+.disp:last-child{border-bottom:0;}
+.disp .tg{font-family:'Courier New',monospace;font-size:9px;color:var(--textdim);letter-spacing:1px;text-transform:uppercase;flex-shrink:0;min-width:88px;}
+.disp .tx{color:var(--text);}
+
+/* ============================================================
+   INTRO
+============================================================ */
+#intro{
+  position:fixed;inset:0;z-index:9000;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+}
+#intro-photo{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(70%) contrast(1.15) brightness(.5);opacity:.38;
+}
+.intro-vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 28%,rgba(10,12,13,.9) 100%);}
+
+.intro-stamp{
+  position:absolute;top:32px;right:36px;width:72px;height:72px;z-index:3;
+  opacity:.85;
+}
+.intro-stamp .l1,.intro-stamp .l2{font-size:8px;}
+
+#ic{position:relative;z-index:3;}
+.intro-logo{
+  width:62px;height:62px;border-radius:50%;border:2px solid var(--rust);
+  object-fit:contain;background:var(--panel);padding:6px;margin-bottom:22px;
+  animation:breathe 3.4s ease-in-out infinite;
+}
+#iname{
+  font-weight:700;font-size:46px;letter-spacing:2px;color:var(--textbr);
+  text-transform:uppercase;line-height:1;
+  text-shadow:0 4px 18px rgba(0,0,0,.7);
+  animation:riseIn .6s ease both;
+}
+#isub{
+  font-family:'Courier New',monospace;font-size:11px;letter-spacing:5px;
+  color:rgba(147,176,194,.5);text-transform:uppercase;margin-top:11px;
+  animation:riseIn .6s .08s ease both;
+}
+.intro-rule{width:54px;height:2px;background:var(--rust);margin:24px auto 30px;animation:riseIn .6s .14s ease both;}
+#ibtn{max-width:340px;padding:15px 30px;animation:riseIn .6s .2s ease both;}
+
+#icredit{
+  position:absolute;bottom:22px;font-family:'Courier New',monospace;
+  font-size:9px;color:rgba(194,85,42,.18);letter-spacing:2px;z-index:3;
+}
+
+/* terminal phase */
+#term-panel{
+  display:none;position:absolute;inset:0;z-index:5;
+  background:rgba(15,17,19,.97);align-items:center;justify-content:center;
+}
+.term-box{width:min(580px,88vw);background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--rust);}
+.term-bar{padding:8px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;}
+.term-sq{width:7px;height:7px;background:var(--rust);animation:blink 1s step-end infinite;}
+.term-bar-lbl{font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;color:var(--textdim);text-transform:uppercase;}
+.term-body{padding:16px 20px;min-height:110px;font-family:'Courier New',monospace;font-size:12px;color:var(--steelbr);line-height:1.9;}
+.term-line{display:block;white-space:pre-wrap;min-height:1.9em;}
+.term-cur{display:none;width:7px;height:12px;background:var(--rust);vertical-align:middle;margin-left:2px;animation:blink .6s step-end infinite;}
+#idcard{font-family:'Courier New',monospace;font-size:10px;color:rgba(147,176,194,.78);white-space:pre;padding:0 20px;overflow-x:auto;display:none;}
+.term-foot{padding:14px 20px 20px;display:none;}
+
+/* ============================================================
+   GLITCH OVERLAY
+============================================================ */
+#gol{position:fixed;inset:0;z-index:19000;pointer-events:none;display:none;overflow:hidden;}
+.gb{position:absolute;left:0;right:0;mix-blend-mode:difference;}
+
+/* ============================================================
+   AUDIO FALLBACK (shows only if autoplay was blocked)
+============================================================ */
+#audio-fallback{
+  position:fixed;bottom:18px;right:18px;z-index:25000;display:none;
+  font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:600;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  background:var(--rust);color:#15171A;border:none;padding:10px 18px;
+  clip-path:polygon(0 0,100% 0,100% 80%,88% 100%,0 100%);
+  box-shadow:0 4px 16px rgba(0,0,0,.5);
+}
+#audio-fallback.show{display:block;animation:riseIn .3s ease;}
+
+/* ============================================================
+   MAIN SITE
+============================================================ */
+#site{display:none;opacity:0;}
+#site.on{display:block;animation:siteIn 1.7s ease forwards;}
+
+/* ---- HEADER ---- */
+#hdr{position:relative;width:100%;height:260px;overflow:hidden;background:var(--ink2);}
+#hdr-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%;filter:grayscale(60%) contrast(1.12) brightness(.72);}
+.hdr-grad{position:absolute;inset:0;background:linear-gradient(100deg,rgba(20,23,26,.95) 0%,rgba(20,23,26,.55) 32%,rgba(20,23,26,.12) 55%,rgba(194,85,42,.1) 70%,rgba(20,23,26,.72) 100%);}
+.hdr-vig{position:absolute;inset:0;background:radial-gradient(ellipse at 28% 50%,transparent 32%,rgba(10,12,13,.55) 100%);}
+.hdr-content{position:absolute;left:30px;bottom:24px;z-index:5;}
+.hdr-content h1{font-weight:700;font-size:46px;letter-spacing:2px;color:var(--textbr);text-transform:uppercase;line-height:1;text-shadow:0 3px 14px rgba(0,0,0,.8);}
+.hdr-rule{width:60px;height:3px;background:var(--rust);margin-top:13px;}
+
+/* ---- NAV ---- */
+nav#nav{background:var(--ink2);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:500;}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 20px;display:flex;flex-wrap:wrap;}
+nav#nav a,nav#nav .nl{
+  position:relative;display:inline-block;padding:14px 18px;
+  font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:600;
+  font-size:11.5px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(163,158,147,.55);text-decoration:none;background:none;border:none;
+}
+nav#nav a::after,nav#nav .nl::after{
+  content:'';position:absolute;left:18px;right:18px;bottom:9px;height:2px;
+  background:var(--rust);transform:scaleX(0);transform-origin:left;transition:transform .2s ease;
+}
+nav#nav a:hover,nav#nav .nl:hover{color:var(--textbr);}
+nav#nav a:hover::after,nav#nav .nl:hover::after{transform:scaleX(1);}
+
+/* ---- WRAP ---- */
+.wrap{max-width:1080px;margin:0 auto;padding:22px 20px 30px;}
+
+/* ---- UNIT ROW (logo + name + stamp) ---- */
+.unit-row{display:flex;align-items:center;gap:18px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:22px;}
+.unit-logo{width:64px;height:64px;border-radius:50%;border:2px solid var(--rust);object-fit:contain;background:var(--panel);padding:6px;flex-shrink:0;}
+.unit-info{flex:1;min-width:0;}
+.unit-info h2{font-weight:700;font-size:23px;letter-spacing:1px;color:var(--textbr);text-transform:uppercase;}
+.unit-sub{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;color:var(--steelbr);text-transform:uppercase;margin-top:6px;}
+.unit-meta{font-size:11px;color:var(--textdim);margin-top:8px;}
+.rust-dot{display:inline-block;width:6px;height:6px;background:var(--rust);margin-right:7px;vertical-align:middle;}
+.unit-stamp{width:80px;height:80px;}
+
+/* ---- GRID ---- */
+.grid2{display:grid;grid-template-columns:minmax(280px,37%) 1fr;gap:22px;align-items:start;}
+
+/* ---- PANEL ---- */
+.panel{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--rust);}
+.panel-head{padding:16px 20px 13px;border-bottom:1px solid var(--line);}
+.panel-head .tag{display:block;margin-bottom:7px;}
+.panel-head h3{font-weight:700;font-size:18px;letter-spacing:1px;color:var(--textbr);text-transform:uppercase;}
+.panel-body{padding:18px 20px 20px;}
+.panel-body p{font-size:12.5px;color:var(--text);line-height:1.75;margin-bottom:10px;}
+.panel-body p:last-child{margin-bottom:0;}
+.panel-body strong{color:var(--textbr);}
+
+/* ---- ENLIST STEP ---- */
+.step-h{font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:600;font-size:11px;letter-spacing:2px;color:var(--rustbr);text-transform:uppercase;margin-bottom:9px;}
+.url-note{display:block;font-family:'Courier New',monospace;font-size:9px;color:var(--textdim);text-align:center;margin-top:6px;}
+
+/* ---- WEBSITE INFO ---- */
+.winfo{margin-top:14px;font-family:'Courier New',monospace;font-size:9px;color:var(--textdim);}
+.winfo a{color:#4D4A43;}.winfo a:hover{color:var(--rustbr);}
+
+/* ---- RANKING PANEL ---- */
+.rank-panel{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--rust);margin-top:24px;}
+.rank-head{padding:16px 20px 13px;border-bottom:1px solid var(--line);}
+.rank-head .tag{display:block;margin-bottom:7px;color:rgba(201,64,46,.6);}
+.rank-head h3{font-weight:700;font-size:18px;letter-spacing:1px;color:var(--textbr);text-transform:uppercase;}
+.rank-note{font-family:'Courier New',monospace;font-size:10px;color:var(--textdim);padding:10px 20px;font-style:italic;border-bottom:1px solid var(--line);}
+
+table.rank-tbl{width:100%;border-collapse:collapse;font-size:12px;}
+table.rank-tbl thead td{padding:10px 20px 8px;font-family:'Courier New',monospace;font-size:9px;color:var(--textdim);letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--line2);}
+table.rank-tbl tbody td{padding:7px 20px;color:var(--text);vertical-align:top;border-bottom:1px solid var(--line);}
+table.rank-tbl tbody tr:hover td{background:rgba(92,116,134,.05);}
+table.rank-tbl tbody td:first-child{color:var(--textbr);font-weight:600;width:23%;}
+table.rank-tbl tbody td:nth-child(2){font-family:'Courier New',monospace;color:var(--rustbr);font-size:10.5px;width:19%;}
+table.rank-tbl tbody td:nth-child(3){color:#8C887D;font-size:11px;}
+
+tr.tier td{padding:11px 20px;border-bottom:1px solid var(--line);}
+.tier-row{display:flex;align-items:center;gap:14px;}
+.tier-row span{flex:1;height:1px;background:var(--line2);}
+.tier-row b{font-weight:600;font-size:10px;letter-spacing:3px;color:var(--rustbr);text-transform:uppercase;white-space:nowrap;font-family:'Oswald',Arial Narrow,Arial,sans-serif;}
+
+tr.ro td:first-child{color:var(--steelbr);}
+tr.rg td:first-child{color:var(--redbr);}
+tr.rgomc td:first-child{color:var(--textbr);}
+
+/* ---- FOOTER ---- */
+footer{padding:18px 0;text-align:center;font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;color:var(--textdim);text-transform:uppercase;border-top:1px solid var(--line);margin-top:26px;}
+footer a{color:#4D4A43;}footer a:hover{color:var(--rustbr);}
+
+/* ---- MODAL ---- */
+#mbase{position:fixed;inset:0;z-index:20000;background:rgba(14,16,18,.92);display:none;align-items:center;justify-content:center;}
+#mbase.open{display:flex;}
+.modal-box{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--rust);padding:32px;width:min(380px,86vw);text-align:center;}
+.modal-box h3{font-weight:700;font-size:19px;color:var(--textbr);text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;}
+.modal-msg{font-family:'Courier New',monospace;font-size:13px;color:var(--rustbr);letter-spacing:2px;text-transform:uppercase;min-height:20px;margin-bottom:22px;}
+.modal-close{font-family:'Oswald',Arial Narrow,Arial,sans-serif;font-weight:600;font-size:11px;letter-spacing:2px;color:var(--textdim);border:1px solid var(--line2);background:none;padding:8px 22px;text-transform:uppercase;transition:all .15s;}
+.modal-close:hover{color:var(--rustbr);border-color:var(--rust);}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media(max-width:860px){
+  .grid2{grid-template-columns:1fr;}
+  #hdr{height:200px;}
+  .hdr-content h1{font-size:32px;}
+  .unit-row{flex-wrap:wrap;}
+  #iname{font-size:34px;}
+  nav#nav a,nav#nav .nl{padding:11px 13px;font-size:10.5px;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     AUDIO — filenames case-sensitive, same folder as index.html
+============================================================ -->
+<audio id="a-bgm"    src="MURDA_KILLA_IS_MY_CLICK.mp3"                                                                           preload="auto" loop></audio>
+<audio id="a-term"   src="Create_a_retro_computer_console_look_in_After_Effects_with_the_Terminal_Preset-_AudioTrimmer_com_.mp3" preload="auto" loop></audio>
+<audio id="a-glitch" src="glitch.mp3"                                                                                                  preload="auto"></audio>
+<audio id="a-clk"    src="ROBLOX_Sound_-_button-_AudioTrimmer_com_.mp3"                                                               preload="auto"></audio>
+<audio id="a-rad"    src="Radio_Chatter_-_Airstrike_-_Roblox.mp3"                                                                     preload="auto"></audio>
+
+<!-- ============================================================
+     INTRO
+============================================================ -->
+<div id="intro">
+  <img id="intro-photo" src="noFilter.png" alt=""/>
+  <div class="intro-vig"></div>
+  <div class="tick" style="top:30px;left:30px;"></div>
+  <div class="tick" style="bottom:30px;left:30px;"></div>
+
+  <div class="stamp intro-stamp">
+    <div class="l1">File</div>
+    <div class="l2">Classified</div>
+    <div class="l3">82MC</div>
+  </div>
+
+  <div id="ic">
+    <img src="skull_logo.webp" class="intro-logo" alt="Night Stalkers"/>
+    <div id="iname" class="disp">Robloxian Night Stalkers</div>
+    <div id="isub">82nd Marines Corps &#9632; Death Waits In The Dark</div>
+    <div class="intro-rule"></div>
+    <button id="ibtn" class="btn btn-primary" onclick="deployNow()">Enter Deployment Zone</button>
+  </div>
+
+  <div id="icredit">// dossier prepared by 3ptp &nbsp;|&nbsp; v6.0 &nbsp;|&nbsp; 2025 //</div>
+
+  <!-- terminal (shown after click) -->
+  <div id="term-panel">
+    <div class="term-box">
+      <div class="term-bar">
+        <span class="term-sq"></span>
+        <span class="term-bar-lbl">Secure Link // Terminal Access</span>
+      </div>
+      <div class="term-body">
+        <span class="term-line" id="tl1"></span>
+        <span class="term-line" id="tl2"></span>
+        <span class="term-line" id="tl3"></span>
+        <span class="term-cur"  id="tcur"></span>
+      </div>
+      <div id="idcard"></div>
+      <div class="term-foot" id="term-foot">
+        <button id="enter-btn" class="btn btn-primary" onclick="revealSite()">Enter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GLITCH -->
+<div id="gol"></div>
+
+<!-- AUDIO FALLBACK -->
+<button id="audio-fallback" onclick="retryAudio()">&#9834; Enable Sound</button>
+
+<!-- ============================================================
+     MAIN SITE
+============================================================ -->
+<div id="site">
+
+  <div id="hdr">
+    <img id="hdr-img" src="noFilter.png" alt=""/>
+    <div class="hdr-grad"></div>
+    <div class="hdr-vig"></div>
+    <div class="tick" style="top:18px;left:18px;"></div>
+    <div class="tick" style="bottom:18px;right:18px;"></div>
+    <div class="hdr-content">
+      <span class="tag">82nd Marines Corps // Field Unit</span>
+      <h1 class="disp">Night Stalkers</h1>
+      <div class="hdr-rule"></div>
+    </div>
+  </div>
+
+  <nav id="nav">
+    <div class="nav-in">
+      <a href="#mc">Home</a>
+      <a href="#about">About Us</a>
+      <a href="#roster">Members</a>
+      <a href="#rank">Ranking</a>
+      <button class="nl" onclick="openMod()">Our Base</button>
+      <a href="https://discord.gg/R5k4rMJMs" target="_blank">Discord</a>
+      <a href="https://www.roblox.com/communities/883321653/The-Robloxian-Night-Stalkers#!/about" target="_blank">Apply</a>
+    </div>
+  </nav>
+
+  <div class="wrap" id="mc">
+
+    <div class="unit-row">
+      <img class="unit-logo" src="skull_logo.webp" alt="Night Stalkers Logo"/>
+      <div class="unit-info">
+        <h2 class="disp">The Robloxian Night Stalkers</h2>
+        <div class="unit-sub">Tactical Zombie Survival Unit</div>
+        <div class="unit-meta"><span class="rust-dot"></span>Group #883321653</div>
+      </div>
+      <div class="stamp unit-stamp">
+        <div class="l1">Status</div>
+        <div class="l2">Active</div>
+        <div class="l3">Recruiting</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+
+      <!-- LEFT: DOSSIER -->
+      <div>
+
+        <div class="panel" id="about">
+          <div class="panel-head">
+            <span class="tag">File No. 01</span>
+            <h3 class="disp">About The Unit</h3>
+          </div>
+          <div class="panel-body">
+            <p><strong>Welcome, Soldier.</strong> Official home of the
+            <strong>Robloxian Night Stalkers 82nd Marines Corps</strong>.</p>
+            <p>Not a casual unit. Forged in darkness, built on discipline and precision.
+            We operate where others quit.</p>
+            <p>Primary theater: <strong>Retro Zombie Rescue Mission</strong>.
+            Brutal. Unforgiving. Our kind of fight.</p>
+
+            <hr class="rule"/>
+            <div class="label-sm">Mission Objectives</div>
+            <ul class="chev">
+              <li>Rescue survivors in infected zones</li>
+              <li>Fortify and hold strategic positions</li>
+              <li>Secure helicopter extraction points</li>
+              <li>Eliminate the horde with military precision</li>
+              <li>Unit cohesion above everything</li>
+            </ul>
+
+            <hr class="rule"/>
+            <div class="label-sm">Status</div>
+            <dl class="kv">
+              <div class="row"><dt>Game</dt><dd>Retro Zombie Rescue Mission</dd></div>
+              <div class="row"><dt>Division</dt><dd>82nd Marines Corps</dd></div>
+              <div class="row"><dt>Recruiting</dt><dd class="hi">Open</dd></div>
+              <div class="row"><dt>Group ID</dt><dd>#883321653</dd></div>
+              <div class="row"><dt>Commander</dt><dd>
+                <a href="https://www.roblox.com/users/2659154207/profile" target="_blank">Supanika</a>
+              </dd></div>
+            </dl>
+
+            <hr class="rule"/>
+            <div class="label-sm" id="roster">Active Roster</div>
+            <div class="rrow"><span><span class="rktag">GOMC</span>General of MC</span><span class="v">Appointed</span></div>
+            <div class="rrow"><span><span class="rktag">GEN</span>General</span><span class="v">Appointed</span></div>
+            <div class="rrow"><span><span class="rktag">LTG</span>Lt. General</span><span class="v">Appointed</span></div>
+            <div class="rrow"><span><span class="rktag">COL</span>Colonel</span><span class="v">Appointed</span></div>
+            <div class="rrow"><span><span class="rktag">CW5</span>Chief Warrant 5</span><span class="v">Appointed</span></div>
+            <div class="rrow"><span><span class="rktag">SGM</span>Sgt Major MC</span><span class="v">Open</span></div>
+            <div class="rrow"><span><span class="rktag">PVT</span>Private</span><span class="v">Open</span></div>
+
+            <div class="winfo">
+              Website by <a href="https://www.roblox.com/users/530316066/profile" target="_blank">3ptp</a>
+              &nbsp;//&nbsp; v6.0 &nbsp;//&nbsp; 2025
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /left -->
+
+      <!-- RIGHT: ENLISTMENT -->
+      <div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span class="tag">File No. 02</span>
+            <h3 class="disp">Enlistment Procedure</h3>
+          </div>
+          <div class="panel-body">
+            <p>The <strong>Night Stalkers</strong> are recruiting. Two steps. No exceptions. No shortcuts.</p>
+
+            <hr class="rule"/>
+            <div class="step-h">Step 01 — Join Our Roblox Group</div>
+            <p>Click below to join the official Roblox group. Mandatory before any clearance is granted.</p>
+            <a href="https://www.roblox.com/communities/883321653/The-Robloxian-Night-Stalkers#!/about"
+               target="_blank" class="btn btn-primary">Join On Roblox</a>
+            <span class="url-note">roblox.com/communities/883321653</span>
+
+            <hr class="rule"/>
+            <div class="step-h">Step 02 — Discord and Application</div>
+            <p>To become a full member you <strong style="color:var(--redbr);">MUST</strong> join Discord
+            and fill out an application. No Discord, no clearance.</p>
+            <p>Server: <a href="https://discord.gg/R5k4rMJMs" target="_blank" style="font-weight:700;">discord.gg/R5k4rMJMs</a></p>
+            <a href="https://discord.gg/R5k4rMJMs" target="_blank" class="btn btn-outline">Join Discord Server</a>
+
+            <hr class="rule"/>
+            <div class="label-sm">Conduct</div>
+            <ul class="chev">
+              <li>No griefing, trolling or going rogue during operations</li>
+              <li>Follow all orders from commanding officers at all times</li>
+              <li>Maintain activity; inactive members will be discharged</li>
+              <li>Respect all members regardless of rank or experience</li>
+              <li>Scheduled operation attendance is strongly expected</li>
+            </ul>
+
+            <hr class="rule"/>
+            <div class="label-sm">Primary Operation</div>
+            <p><strong>Retro Zombie Rescue Mission</strong> is the Night Stalkers battlefield.
+            All operations here. This is where soldiers prove themselves.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12.5px;color:var(--text);margin-top:8px;">
+              <div>&#8250; Classic zombie gameplay<br/>&#8250; Survivor rescue missions<br/>&#8250; Helicopter extractions</div>
+              <div>&#8250; Base fortification<br/>&#8250; Team coordination required<br/>&#8250; Military mission structure</div>
+            </div>
+            <a href="https://www.roblox.com/communities/883321653/The-Robloxian-Night-Stalkers#!/about"
+               target="_blank" class="btn-text" style="display:inline-block;margin-top:10px;">View Group Page</a>
+
+            <hr class="rule"/>
+            <div class="label-sm">Dispatches</div>
+            <div class="disp"><span class="tg">Recruiting</span><span class="tx">All ranks open. Report to Discord immediately.</span></div>
+            <div class="disp"><span class="tg">Operations</span><span class="tx">New protocols deployed. Active members check Discord for briefing.</span></div>
+            <div class="disp"><span class="tg">Site v6.0</span><span class="tx">Full remaster live. Built by
+              <a href="https://www.roblox.com/users/530316066/profile" target="_blank">3ptp</a>.</span></div>
+          </div>
+        </div>
+
+      </div><!-- /right -->
+
+    </div><!-- /grid2 -->
+
+    <!-- RANKING -->
+    <div class="rank-panel" id="rank">
+      <div class="rank-head">
+        <span class="tag">File No. 03</span>
+        <h3 class="disp">Promotion Ladder &mdash; 82nd Marines Corps</h3>
+      </div>
+      <div class="rank-note">// Evidence of join date required for all promotions. Listed lowest to highest.</div>
+      <table class="rank-tbl">
+        <thead><tr><td>Rank</td><td>Requirement</td><td>Description</td></tr></thead>
+        <tbody>
+          <tr class="tier"><td colspan="3"><div class="tier-row"><span></span><b>Enlisted</b><span></span></div></td></tr>
+          <tr><td>Private</td>                       <td>Join server</td>                    <td>Entry-level recruit. Welcome to the unit.</td></tr>
+          <tr><td>Private First Class</td>           <td>2 weeks</td>                       <td>Demonstrated basic commitment to the unit.</td></tr>
+          <tr><td>Lance Corporal</td>                <td>4 weeks</td>                       <td>Proven reliability in field operations.</td></tr>
+          <tr><td>Specialist</td>                    <td>4.5 wks + save a higher ranker</td><td>Technical aptitude shown. Proven under fire.</td></tr>
+          <tr><td>Corporal</td>                      <td>5 weeks</td>                       <td>Trusted team member. Leads small fire teams.</td></tr>
+
+          <tr class="tier"><td colspan="3"><div class="tier-row"><span></span><b>Non-Commissioned Officers</b><span></span></div></td></tr>
+          <tr><td>Sergeant</td>                      <td>7 weeks</td>                       <td>Squad leader. Responsible for small unit tactics.</td></tr>
+          <tr><td>Staff Sergeant</td>                <td>8 weeks</td>                       <td>Senior NCO. Assists in training and operations.</td></tr>
+          <tr><td>Gunnery Sergeant</td>              <td>9 weeks</td>                       <td>Technical advisor and experienced field leader.</td></tr>
+          <tr><td>Master Sergeant</td>               <td>10 weeks</td>                      <td>Advanced NCO responsible for operations management.</td></tr>
+          <tr><td>First Sergeant</td>                <td>12 weeks + Level 12</td>           <td>Senior enlisted advisor. Right hand of unit command.</td></tr>
+          <tr><td>Master Gunnery Sergeant</td>       <td>14 weeks + Level 14</td>           <td>Expert specialist. Trains and mentors all NCOs below.</td></tr>
+
+          <tr class="tier"><td colspan="3"><div class="tier-row"><span></span><b>Senior NCO</b><span></span></div></td></tr>
+          <tr><td>Sergeant Major</td>                <td>16 weeks + Level 20</td>           <td>Senior NCO of the battalion. Commands with authority.</td></tr>
+          <tr><td>Sgt Major of the Marine Corps</td> <td>20 weeks + Level 25</td>           <td>Highest enlisted rank. Voice of the enlisted corps.</td></tr>
+
+          <tr class="tier"><td colspan="3"><div class="tier-row"><span></span><b>Warrant Officers — Appointed</b><span></span></div></td></tr>
+          <tr class="ro"><td>Warrant Officer 1 (WO1)</td>       <td>Appointed</td><td>The entry-level warrant officer, appointed as a highly skilled technical expert.</td></tr>
+          <tr class="ro"><td>Chief Warrant Officer 2 (CW2)</td> <td>Appointed</td><td>An experienced technical specialist who advises commanders and leads within a specialized field.</td></tr>
+          <tr class="ro"><td>Chief Warrant Officer 3 (CW3)</td> <td>Appointed</td><td>An advanced technical expert responsible for complex systems, training, and mentoring junior warrant officers.</td></tr>
+          <tr class="ro"><td>Chief Warrant Officer 4 (CW4)</td> <td>Appointed</td><td>A senior technical leader with extensive expertise, often advising at brigade or division level.</td></tr>
+          <tr class="ro"><td>Chief Warrant Officer 5 (CW5)</td> <td>Appointed</td><td>The highest warrant officer rank, serving as one of the military's foremost technical authorities.</td></tr>
+
+          <tr class="tier"><td colspan="3"><div class="tier-row"><span></span><b>Commissioned Officers — Appointed</b><span></span></div></td></tr>
+          <tr class="ro"><td>Second Lieutenant</td>  <td>Appointed</td><td>The first commissioned officer rank. Usually commands a platoon of around 20 to 50 personnel.</td></tr>
+          <tr class="ro"><td>First Lieutenant</td>   <td>Appointed</td><td>A more experienced platoon leader or executive officer who assists in managing a company.</td></tr>
+          <tr class="ro"><td>Captain</td>            <td>Appointed</td><td>You get your own squad and lead missions and recons.</td></tr>
+          <tr class="ro"><td>Major</td>              <td>Appointed</td><td>A field-grade officer who often serves as a battalion staff officer or operations officer.</td></tr>
+          <tr class="ro"><td>Lieutenant Colonel</td> <td>Appointed</td><td>You get to start making and leading events and announcements.</td></tr>
+          <tr class="ro"><td>Colonel</td>            <td>Appointed</td><td>Commands a regiment or brigade. High-level staff with significant organizational responsibility.</td></tr>
+
+          <tr class="tier"><td colspan="3"><div class="tier-row"><span></span><b>General Officers — Appointed</b><span></span></div></td></tr>
+          <tr class="rg"><td>Brigadier General</td>  <td>Appointed</td><td>You get to have your own brigade.</td></tr>
+          <tr class="rg"><td>Major General</td>      <td>Appointed</td><td>You get to command a small division or battalion of troops.</td></tr>
+          <tr class="rg"><td>Lieutenant General</td> <td>Appointed</td><td>You are in charge of servicing machines and vehicles and ordering a batch of troops around.</td></tr>
+          <tr class="rg"><td>General</td>            <td>Appointed</td><td>You are one of the highest ranks and take on a lot of authority with commanding troops and giving out orders.</td></tr>
+
+          <tr class="tier"><td colspan="3"><div class="tier-row"><span></span><b>Highest Command</b><span></span></div></td></tr>
+          <tr class="rgomc"><td>General of the Marine Corps</td><td>Appointed when prev. steps down</td><td>This is the highest rank in the system. If you have it then you deserve it. You have shown excellence among comrades and missions. Refused no tasks and did everything correctly.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /wrap -->
+
+  <footer>
+    &copy; 2025 The Robloxian Night Stalkers &#9632; 82nd Marines Corps &#9632; Website by
+    <a href="https://www.roblox.com/users/530316066/profile" target="_blank">3ptp</a>
+  </footer>
+
+</div><!-- /site -->
+
+<!-- MODAL -->
+<div id="mbase">
+  <div class="modal-box">
+    <h3 class="disp">Our Base</h3>
+    <div class="modal-msg" id="mcs-txt"></div>
+    <button class="modal-close" onclick="closeMod()">Close</button>
+  </div>
+</div>
+
+<script>
+/*
+  NIGHT STALKERS v6.0 — "Field Dossier" — JS
+  coded by: 3ptp
+
+  This is a structural and visual rebuild, not a recolor:
+  - Two-column dossier replaces stacked card panels
+  - Stamp badge replaces blinking-dot status indicators
+  - Tier dividers use flanking rules instead of dim ghost text
+  - Rust/steel palette, no green, no gold, no matrix rain
+  - Oswald display type, system sans body, monospace meta only
+
+  AUDIO: aBgm.play() and aTerm.play() are called as the very
+  first lines inside deployNow(), synchronously, in the
+  click event. This is the only reliable way to satisfy
+  browser autoplay policy. A visible fallback button appears
+  if the browser still blocks it, so the person always has a
+  guaranteed manual way to start the music.
+*/
+
+var aBgm  = document.getElementById('a-bgm');
+var aTerm = document.getElementById('a-term');
+var aGl   = document.getElementById('a-glitch');
+var aClk  = document.getElementById('a-clk');
+var aRad  = document.getElementById('a-rad');
+
+/* ── AUDIO FALLBACK ── */
+function showFallback(){ document.getElementById('audio-fallback').classList.add('show'); }
+function hideFallback(){ document.getElementById('audio-fallback').classList.remove('show'); }
+
+function retryAudio(){
+  if (aBgm){
+    aBgm.play().then(function(){ hideFallback(); })
+               .catch(function(e){ console.error('BGM retry failed:', e); });
+  }
+}
+
+/* ── DEPLOY NOW ── */
+var deployed = false;
+
+function deployNow(){
+  if (deployed) return;
+  deployed = true;
+
+  /* AUDIO — first lines, synchronous, inside the click gesture */
+  if (aBgm){
+    aBgm.volume = 0.28; aBgm.loop = true;
+    var p1 = aBgm.play();
+    if (p1 && p1.catch) p1.catch(function(e){ console.error('BGM blocked:', e); showFallback(); });
+  }
+  if (aTerm){
+    aTerm.volume = 0.5; aTerm.loop = true;
+    aTerm.play().catch(function(e){ console.error('Term blocked:', e); });
+  }
+
+  document.getElementById('ic').style.transition = 'opacity .4s';
+  document.getElementById('ic').style.opacity    = '0';
+
+  setTimeout(function(){
+    document.getElementById('ic').style.display = 'none';
+    var tp = document.getElementById('term-panel');
+    tp.style.display = 'flex';
+
+    var l1 = document.getElementById('tl1');
+    var l2 = document.getElementById('tl2');
+    var l3 = document.getElementById('tl3');
+    var cr = document.getElementById('tcur');
+    var idc = document.getElementById('idcard');
+    var foot = document.getElementById('term-foot');
+
+    cr.style.display = 'inline-block';
+
+    type(l1, '> ESTABLISHING SECURE CONNECTION...', 44, function(){
+      setTimeout(function(){
+        type(l2, '> INITIALISING . . .', 85, function(){
+          setTimeout(function(){
+            type(l3, '> WELCOME . . .', 100, function(){
+              cr.style.display = 'none';
+              if (aTerm){ aTerm.pause(); aTerm.currentTime = 0; }
+
+              setTimeout(function(){
+                doGlitch(1600, function(){
+                  var idTxt = makeId();
+                  idc.style.display = 'block';
+                  idc.textContent   = '';
+
+                  if (aTerm){ aTerm.volume = 0.28; aTerm.loop = true; aTerm.play().catch(function(){}); }
+
+                  var i = 0;
+                  var spd = Math.max(Math.floor(8000 / idTxt.length), 12);
+                  var t = setInterval(function(){
+                    if (i < idTxt.length){ idc.textContent += idTxt[i]; i++; }
+                    else{
+                      clearInterval(t);
+                      if (aTerm){ aTerm.loop = false; aTerm.pause(); aTerm.currentTime = 0; }
+                      setTimeout(function(){ foot.style.display = 'block'; }, 320);
+                    }
+                  }, spd);
+                });
+              }, 380);
+            });
+          }, 260);
+        });
+      }, 140);
+    });
+  }, 440);
+}
+
+/* ── REVEAL SITE ── */
+var revealed = false;
+
+function revealSite(){
+  if (revealed) return;
+  revealed = true;
+
+  doGlitch(1100, function(){
+    var intro = document.getElementById('intro');
+    intro.style.transition = 'opacity .35s';
+    intro.style.opacity    = '0';
+    setTimeout(function(){
+      intro.style.display = 'none';
+      var s = document.getElementById('site');
+      s.style.display = 'block';
+      s.classList.add('on');
+    }, 360);
+  });
+}
+
+/* ── TYPING ── */
+function type(el, txt, spd, cb){
+  var i = 0; el.textContent = '';
+  var t = setInterval(function(){
+    if (i < txt.length){ el.textContent += txt[i]; i++; }
+    else{ clearInterval(t); if (cb) cb(); }
+  }, spd);
+}
+
+/* ── GLITCH ── */
+var glInt = null;
+function doGlitch(ms, cb){
+  var ol = document.getElementById('gol');
+  ol.style.display = 'block';
+  if (aGl){ aGl.currentTime = 0; aGl.volume = 0.6; aGl.play().catch(function(){}); }
+
+  glInt = setInterval(function(){
+    ol.querySelectorAll('.gb').forEach(function(b){ b.remove(); });
+    var n = 4 + Math.floor(Math.random()*9);
+    for (var i = 0; i < n; i++){
+      var b = document.createElement('div');
+      b.className = 'gb';
+      b.style.cssText =
+        'top:'    + (Math.random()*100) + '%;' +
+        'height:' + (Math.random()*4+1) + 'px;' +
+        'transform:translateX(' + ((Math.random()-.5)*54) + 'px);' +
+        'opacity:' + (Math.random()*.55+.08) + ';' +
+        'background:' + (Math.random()>.5 ? '#C2552A' : 'rgba(194,85,42,.45)') + ';';
+      ol.appendChild(b);
+    }
+  }, 48);
+
+  setTimeout(function(){
+    clearInterval(glInt);
+    ol.style.display = 'none';
+    ol.querySelectorAll('.gb').forEach(function(b){ b.remove(); });
+    if (aGl){ aGl.pause(); aGl.currentTime = 0; }
+    if (cb) cb();
+  }, ms);
+}
+
+/* ── VISITOR ID ── */
+function makeId(){
+  var n = ['GHOST','PHANTOM','VIPER','REAPER','WRAITH','SPECTRE','SHADOW','NEMESIS','COBRA','STRIKER'];
+  var s = ['ALPHA-3','BRAVO-7','DELTA-1','ECHO-9','FOXTROT-4','GAMMA-6','OMEGA-2'];
+  var t = ['LOW','MODERATE','ELEVATED','CRITICAL'];
+  var l = ['LEVEL 3','LEVEL 4','LEVEL 5'];
+  function p(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function rid(){ return 'NS-'+Math.random().toString(36).substr(2,6).toUpperCase(); }
+  function rip(){ return [1,2,3,4].map(function(){ return Math.floor(Math.random()*255); }).join('.'); }
+  function pad(s,l){ return (s+new Array(l+1).join(' ')).slice(0,l); }
+  var ts = new Date().toISOString().replace('T',' ').split('.')[0];
+  return [
+    '==========================================',
+    '  >> VISITOR IDENTIFICATION SYSTEM <<   ',
+    '==========================================',
+    pad('UNIT_ID',14)+' : '+rid(),
+    pad('CODENAME',14)+' : '+p(n),
+    pad('CLEARANCE',14)+' : '+p(l),
+    pad('ORIGIN_IP',14)+' : '+rip(),
+    pad('SECTOR',14)+' : '+p(s),
+    pad('THREAT',14)+' : '+p(t),
+    pad('TIMESTAMP',14)+' : '+ts,
+    pad('FACTION',14)+' : ROBLOXIAN NIGHT STALKERS',
+    pad('STATUS',14)+' : AUTHORIZED',
+    pad('ACCESS',14)+' : GRANTED',
+    '=========================================='
+  ].join('\n');
+}
+
+/* ── CLICK SOUND ── */
+function playClk(){
+  if (!aClk) return;
+  var x = aClk.cloneNode(false);
+  x.volume = 0.75;
+  x.play().catch(function(){});
+}
+document.addEventListener('click', playClk);
+document.addEventListener('contextmenu', function(){ playClk(); });
+
+/* ── RADIO CHATTER ── */
+function schedRad(){
+  setTimeout(function(){
+    if (aRad){ aRad.currentTime = 0; aRad.play().catch(function(){}); }
+    schedRad();
+  }, 55000 + Math.floor(Math.random()*25000));
+}
+setTimeout(function(){
+  if (aRad){ aRad.currentTime = 0; aRad.play().catch(function(){}); }
+  schedRad();
+}, 60000);
+
+/* ── OUR BASE MODAL ── */
+var csI = null;
+function openMod(){
+  document.getElementById('mbase').classList.add('open');
+  var el = document.getElementById('mcs-txt');
+  el.textContent = '';
+  if (csI) clearInterval(csI);
+  var txt = 'Coming Soon . . .', i = 0;
+  csI = setInterval(function(){
+    if (i < txt.length){ el.textContent += txt[i]; i++; }
+    else clearInterval(csI);
+  }, 90);
+}
+function closeMod(){
+  document.getElementById('mbase').classList.remove('open');
+  if (csI){ clearInterval(csI); csI = null; }
+}
+document.getElementById('mbase').addEventListener('click', function(e){
+  if (e.target === this) closeMod();
+});
+</script>
+</body>
+</html>
